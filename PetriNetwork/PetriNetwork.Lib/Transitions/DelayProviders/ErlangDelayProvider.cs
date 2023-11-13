@@ -2,7 +2,7 @@
 
 namespace PetriNetwork.Lib.Transitions.DelayProviders;
 
-public class ErlangDelayProvider<T>: IDelayProvider<T>
+public class ErlangDelayProvider: IDelayProvider
 {
     private Erlang _erlang;
 
@@ -11,7 +11,8 @@ public class ErlangDelayProvider<T>: IDelayProvider<T>
         _erlang = new Erlang(shape, shape / meanDelay);
     }
 
-    public double GetDelay(T item)
+    public double GetDelay(IEnumerable<object> items)
+
     {
         return _erlang.Sample();
     }

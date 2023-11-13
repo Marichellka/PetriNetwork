@@ -1,6 +1,6 @@
 ﻿namespace PetriNetwork.Lib.Transitions.DelayProviders;
 
-public class ConstantDelayProvider<T>: IDelayProvider<T>
+public class ConstantDelayProvider: IDelayProvider
 {
     private double _delay;
 
@@ -9,7 +9,7 @@ public class ConstantDelayProvider<T>: IDelayProvider<T>
         _delay = delay;
     }
 
-    public double GetDelay(T item)
+    public double GetDelay(IEnumerable<object> items)
     {
         return _delay;
     }

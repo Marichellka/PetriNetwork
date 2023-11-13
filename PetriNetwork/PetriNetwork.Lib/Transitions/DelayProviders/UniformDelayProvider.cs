@@ -1,6 +1,6 @@
 ﻿namespace PetriNetwork.Lib.Transitions.DelayProviders;
 
-public class UniformDelayProvider<T>: IDelayProvider<T>
+public class UniformDelayProvider: IDelayProvider
 {
     private double _minDelay;
     private double _maxDelay;
@@ -11,7 +11,7 @@ public class UniformDelayProvider<T>: IDelayProvider<T>
         _minDelay = minDelay;
     }
 
-    public double GetDelay(T item)
+    public double GetDelay(IEnumerable<object> items)
     {
         double delay = Random.Shared.NextDouble();
         while (delay == 0)

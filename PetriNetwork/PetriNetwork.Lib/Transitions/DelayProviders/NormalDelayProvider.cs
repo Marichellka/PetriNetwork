@@ -1,6 +1,6 @@
 ﻿namespace PetriNetwork.Lib.Transitions.DelayProviders;
 
-public class NormalDelayProvider<T>: IDelayProvider<T>
+public class NormalDelayProvider: IDelayProvider
 {
     private double _delayMean;
     private double _delayDeviation;
@@ -11,7 +11,7 @@ public class NormalDelayProvider<T>: IDelayProvider<T>
         _delayDeviation = delayDeviation;
     }
 
-    public double GetDelay(T item)
+    public double GetDelay(IEnumerable<object> items)
     {
         double delay;
         double u1 = Random.Shared.NextDouble(); 
