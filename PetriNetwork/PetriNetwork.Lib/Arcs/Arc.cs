@@ -1,4 +1,4 @@
-﻿using PetriNetwork.Lib.Position;
+﻿using PetriNetwork.Lib.Positions;
 using PetriNetwork.Lib.Transitions;
 
 namespace PetriNetwork.Lib.Arcs;

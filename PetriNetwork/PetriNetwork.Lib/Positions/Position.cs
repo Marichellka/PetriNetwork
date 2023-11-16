@@ -1,12 +1,25 @@
 ﻿using PetriNetwork.Lib.Markers.Queues;
 
-namespace PetriNetwork.Lib.Position;
+namespace PetriNetwork.Lib.Positions;
 
 public class Position<T>
 {
     public string Name { get; }
     public int MarkersCount => Markers.Count;
     public IQueue<T> Markers { get; }
+    
+    public Position(string name)
+    {
+        Name = name;
+        Markers = new Markers.Queues.Queue<T>();
+    }
+    
+    public Position(string name, IQueue<T> markers)
+    {
+        Name = name;
+        Markers = markers;
+    }
+
 
     public T GetMarker()
     {
