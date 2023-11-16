@@ -2,5 +2,5 @@
 
 public interface IMarkerFilter
 {
-    public object Filter(IEnumerable<object> marker);
+    public object Filter(IEnumerable<object> markers);
 }
