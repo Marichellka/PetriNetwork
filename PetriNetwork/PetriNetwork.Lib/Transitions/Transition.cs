@@ -12,6 +12,7 @@ public class Transition
     public IDelayProvider DelayProvider { get; }
     public IProcessor Processor { get; }
     public int Priority { get; }
+    public double Probability { get; }
     public double CurrTime { set; get; }
 
     public double NextEventTime => Processor.NextEventTime;
@@ -19,10 +20,11 @@ public class Transition
     
     public Transition(
         List<ArcIn<object>> arcsIn, Dictionary<ArcOut<object>, IMarkerFilter> arcsOut, 
-        IDelayProvider delayProvider, IProcessor? processor=null,  int priority=0)
+        IDelayProvider delayProvider, IProcessor? processor=null,  int priority=0, double probability=1)
     {
         CurrTime = 0;
         DelayProvider = delayProvider;
+        Probability = probability;
         Priority = priority;
         ArcsIn = arcsIn;
         ArcsOut = arcsOut;
