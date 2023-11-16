@@ -7,11 +7,13 @@ namespace PetriNetwork.Lib.Transitions;
 
 public class Transition
 {
+    public string Name { get; }
     public List<ArcIn<object>> ArcsIn { get; }
     public Dictionary<ArcOut<object>, IMarkerFilter> ArcsOut { get; }
     public IDelayProvider DelayProvider { get; }
     public IProcessor Processor { get; }
-    public int Priority { get; }
+    public int CountProcessing => Processor.ProcessingItems.Count;
+    public double Priority { get; }
     public double Probability { get; }
     public double CurrTime { set; get; }
 
@@ -19,11 +21,12 @@ public class Transition
     
     
     public Transition(
-        List<ArcIn<object>> arcsIn, Dictionary<ArcOut<object>, IMarkerFilter> arcsOut, 
+        string name, List<ArcIn<object>> arcsIn, Dictionary<ArcOut<object>, IMarkerFilter> arcsOut, 
         IDelayProvider delayProvider, IProcessor? processor=null,  int priority=0, double probability=1)
     {
         CurrTime = 0;
         DelayProvider = delayProvider;
+        Name = name;
         Probability = probability;
         Priority = priority;
         ArcsIn = arcsIn;
@@ -61,5 +64,14 @@ public class Transition
         {
             arcOut.SetMarker(filter.Filter(allMarkers));
         }
+    }
+
+    public void Check()
+    {
+        if (ArcsIn.Count == 0)
+            throw new Exception($"Transition {Name} has no input positions");
+
+        if (ArcsOut.Count == 0)
+            throw new Exception($"Transition {Name} has no output positions");
     }
 }
