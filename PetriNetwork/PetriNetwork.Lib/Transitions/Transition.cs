@@ -1,27 +1,28 @@
 ﻿using PetriNetwork.Lib.Arcs;
 using PetriNetwork.Lib.Markers.Filters;
+using PetriNetwork.Lib.Network;
+using PetriNetwork.Lib.Positions;
 using PetriNetwork.Lib.Transitions.DelayProviders;
 using PetriNetwork.Lib.Transitions.Processors;
 
 namespace PetriNetwork.Lib.Transitions;
 
-public class Transition
+public class Transition: INetworkItem
 {
     public string Name { get; }
-    public List<ArcIn<object>> ArcsIn { get; }
-    public Dictionary<ArcOut<object>, IMarkerFilter> ArcsOut { get; }
+    public List<ArcIn> ArcsIn { get; }
+    public Dictionary<ArcOut, IMarkerFilter> ArcsOut { get; }
     public IDelayProvider DelayProvider { get; }
     public IProcessor Processor { get; }
     public int CountProcessing => Processor.ProcessingItems.Count;
     public double Priority { get; }
     public double Probability { get; }
     public double CurrTime { set; get; }
-
     public double NextEventTime => Processor.NextEventTime;
     
     
     public Transition(
-        string name, List<ArcIn<object>> arcsIn, Dictionary<ArcOut<object>, IMarkerFilter> arcsOut, 
+        string name, List<ArcIn> arcsIn, Dictionary<ArcOut, IMarkerFilter> arcsOut, 
         IDelayProvider delayProvider, IProcessor? processor=null,  int priority=0, double probability=1)
     {
         CurrTime = 0;
@@ -34,7 +35,7 @@ public class Transition
         Processor = processor ?? new BasicProcessor();
     }
 
-    public bool IsConditionsDone()
+    public bool IsReady()
     {
         foreach (var arcIn in ArcsIn)
         {
@@ -73,5 +74,21 @@ public class Transition
 
         if (ArcsOut.Count == 0)
             throw new Exception($"Transition {Name} has no output positions");
+    }
+    
+    public void DebugPrint()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Position> GetInPositions()
+    {
+        HashSet<Position> positions = new();
+        foreach (var arcIn in ArcsIn)
+        {
+            positions.Add(arcIn.Position);
+        }
+
+        return positions;
     }
 }
