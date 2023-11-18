@@ -4,11 +4,25 @@ public class Node
 {
     private double _prevTimeUpdate = 0;
     public double TimeInSystem { get; set; }
+
+    private double _waitingStartTime = -1;
+    public double TotalWaitingTime { get; set; }
     public double RepairTime { get; set; }
-    public bool PartiallyProcessed { get; set; }
+    public int CycleCount { get; set; }
     
-    public void Update(double currTime)
+    public void UpdateSystemTime(double currTime)
     {
         TimeInSystem += currTime - _prevTimeUpdate;
+    }
+
+    public void UpdateWaitingTime(double currTime)
+    {
+        if (_waitingStartTime == -1)
+            _waitingStartTime = currTime;
+        else
+        {
+            TotalWaitingTime += currTime - _waitingStartTime;
+            _waitingStartTime = -1;
+        }
     }
 }
