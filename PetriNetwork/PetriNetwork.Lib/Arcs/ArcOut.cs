@@ -3,12 +3,12 @@ using PetriNetwork.Lib.Transitions;
 
 namespace PetriNetwork.Lib.Arcs;
 
-public class ArcOut<T> : Arc<T>
+public class ArcOut : Arc
 {
-    public ArcOut(Position<T> position, Transition transition) : base(position, transition)
+    public ArcOut(Position position, Transition transition) : base(position, transition)
     { }
 
-    public void SetMarker(T marker)
+    public void SetMarker(object marker)
     {
         Position.AddMarker(marker);
     }

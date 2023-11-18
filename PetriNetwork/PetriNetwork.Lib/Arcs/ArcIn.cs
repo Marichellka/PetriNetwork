@@ -3,15 +3,15 @@ using PetriNetwork.Lib.Transitions;
 
 namespace PetriNetwork.Lib.Arcs;
 
-public class ArcIn<T>: Arc<T>
+public class ArcIn: Arc
 {
 
-    public ArcIn(Position<T> position, Transition transition) : base(position, transition)
+    public ArcIn(Position position, Transition transition) : base(position, transition)
     {
     }
     
     
-    public T GetMarker()
+    public object GetMarker()
     {
         return Position.GetMarker();
     }

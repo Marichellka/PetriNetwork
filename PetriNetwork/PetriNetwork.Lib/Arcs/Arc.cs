@@ -3,12 +3,12 @@ using PetriNetwork.Lib.Transitions;
 
 namespace PetriNetwork.Lib.Arcs;
 
-public abstract class Arc<T>
+public abstract class Arc
 {
-    public Position<T> Position { get; }
+    public Position Position { get; }
     public Transition Transition { get; }
     
-    protected Arc(Position<T> position, Transition transition)
+    protected Arc(Position position, Transition transition)
     {
         Position = position;
         Transition = transition;
