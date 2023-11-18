@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
+using PetriNetwork.Lib.Positions;
 
 namespace PetriNetwork.Lib.Transitions.ConflictResolvers;
 
 public class ByProbabilityConflictResolver: IConflictResolver
 {
-    public Transition ResolveConflict(List<Transition> conflictTransitions)
+    public Transition ResolveConflict(List<Transition> conflictTransitions, List<Position> positions)
     {
         if (Math.Abs(conflictTransitions.Sum(t => t.Probability) - 1) > 0.00001)
             throw new ArgumentException("Probabilities are not equal 1");

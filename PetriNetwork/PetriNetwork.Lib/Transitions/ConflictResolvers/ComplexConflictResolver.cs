@@ -1,16 +1,16 @@
-﻿namespace PetriNetwork.Lib.Transitions.ConflictResolvers;
+﻿using PetriNetwork.Lib.Positions;
+
+namespace PetriNetwork.Lib.Transitions.ConflictResolvers;
 
 public class ComplexConflictResolver: IConflictResolver
 {
-    public Transition ResolveConflict(List<Transition> conflictTransitions)
+    public Transition ResolveConflict(List<Transition> conflictTransitions,  List<Position> positions)
     {
         var maxPriorityTransitions = new ByPriorityConflictResolver().GetMaxPriorityTransitions(conflictTransitions);
         
-        var transition = new ByProbabilityConflictResolver().ResolveConflict(maxPriorityTransitions);
+        if (maxPriorityTransitions[0].Probability < 1)
+            return new ByProbabilityConflictResolver().ResolveConflict(maxPriorityTransitions, positions);
 
-        if (transition.Probability < 1)
-            return transition;
-        
-        return new RandomConflictResolver().ResolveConflict(conflictTransitions);
+        return new RandomConflictResolver().ResolveConflict(conflictTransitions, positions);
     }
 }

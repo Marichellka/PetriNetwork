@@ -1,8 +1,10 @@
-﻿namespace PetriNetwork.Lib.Transitions.ConflictResolvers;
+﻿using PetriNetwork.Lib.Positions;
+
+namespace PetriNetwork.Lib.Transitions.ConflictResolvers;
 
 public class ByPriorityConflictResolver: IConflictResolver
 {
-    public Transition ResolveConflict(List<Transition> conflictTransitions)
+    public Transition ResolveConflict(List<Transition> conflictTransitions,  List<Position> positions)
     {
         return conflictTransitions.MaxBy(t => t.Priority);
     }

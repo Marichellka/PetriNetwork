@@ -26,13 +26,9 @@ public class NodeCreationProcessor: IProcessor
     
     public void Process(IEnumerable<object> markers, double timeCompletion)
     {
-        foreach (var marker in markers)
-        {
-            if (marker is Node node)
-            {
-                node.RepairTime = _repairTimeProvider.GetDelay(new List<Node>(){node});
-            }
-        }
+        var node = new Node();
+        node.RepairTime = _repairTimeProvider.GetDelay(new List<Node>(){node});
+        markers.ToList().Add(node);
         
         ProcessingItems.Enqueue(markers, timeCompletion);
     }
