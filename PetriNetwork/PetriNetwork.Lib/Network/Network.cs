@@ -25,7 +25,7 @@ public class Network
         Check();
     }
 
-    public void Check()
+    private void Check()
     {
         foreach (var transition in Transitions)
         {
@@ -47,6 +47,7 @@ public class Network
 
     private void Step()
     {
+        UpdateCurrTime();
         StepOut();
         StepIn();
         _currTime = _nextTime;
@@ -96,6 +97,19 @@ public class Network
                 transition.EndTransition();
                 transition.CurrTime = _currTime;
             }
+        }
+    }
+
+    private void UpdateCurrTime()
+    {
+        foreach (var transition in Transitions)
+        {
+            transition.CurrTime = _currTime;
+        }
+
+        foreach (var position in Positions)
+        {
+            position.CurrTime = _currTime;
         }
     }
 }
