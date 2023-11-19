@@ -29,6 +29,13 @@ public class Position : INetworkItem
         Markers = markers;
         MarkersType = markers.Peek().GetType();
     }
+    
+    public Position(string name, IEnumerable<object> markers)
+    {
+        Name = name;
+        Markers = new Markers.Queues.Queue<object>(markers);
+        MarkersType = Markers.Peek().GetType();
+    }
 
 
     public object GetMarker()

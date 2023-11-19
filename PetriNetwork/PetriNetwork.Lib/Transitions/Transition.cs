@@ -19,19 +19,19 @@ public class Transition: INetworkItem
     public double Probability { get; }
     public double CurrTime { set; get; }
     public double NextEventTime => Processor.NextEventTime;
-    
-    
+
     public Transition(
-        string name, List<ArcIn> arcsIn, Dictionary<ArcOut, IMarkerFilter> arcsOut, 
-        IDelayProvider delayProvider, IProcessor? processor=null,  int priority=0, double probability=1)
+        string name,  IDelayProvider delayProvider, List<ArcIn>? arcsIn=null, 
+        Dictionary<ArcOut, IMarkerFilter>? arcsOut=null, 
+        IProcessor? processor=null,  int priority=0, double probability=1)
     {
         CurrTime = 0;
         DelayProvider = delayProvider;
         Name = name;
         Probability = probability;
         Priority = priority;
-        ArcsIn = arcsIn;
-        ArcsOut = arcsOut;
+        ArcsIn = arcsIn ?? new List<ArcIn>();
+        ArcsOut = arcsOut ?? new Dictionary<ArcOut, IMarkerFilter>();
         Processor = processor ?? new BasicProcessor();
     }
 
