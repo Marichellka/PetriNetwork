@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetriNetwork.Lib", "PetriNetwork.Lib\PetriNetwork.Lib.csproj", "{ED2C5A6B-2B89-4A29-BDD3-CFE2A2AA28EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetriNetwork.RepairWorkshop", "PetriNetwork.RepairWorkshop\PetriNetwork.RepairWorkshop.csproj", "{671C1ADD-3962-4364-813F-A8E55FAB2CBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{ED2C5A6B-2B89-4A29-BDD3-CFE2A2AA28EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED2C5A6B-2B89-4A29-BDD3-CFE2A2AA28EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED2C5A6B-2B89-4A29-BDD3-CFE2A2AA28EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671C1ADD-3962-4364-813F-A8E55FAB2CBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671C1ADD-3962-4364-813F-A8E55FAB2CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671C1ADD-3962-4364-813F-A8E55FAB2CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671C1ADD-3962-4364-813F-A8E55FAB2CBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
