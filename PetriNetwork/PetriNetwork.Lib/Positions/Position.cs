@@ -12,7 +12,7 @@ public class Position : INetworkItem
     public int MarkersCount => Markers.Count;
     public IQueue<object> Markers { get; }
     public Type MarkersType { get; }
-    public List<ArcIn> ArcsIn { get; }
+    public List<ArcIn> ArcsIn { get; } = new List<ArcIn>();
     public event Action<object, double> OnEnter;
     public event Action<object, double> OnExit; 
 
@@ -23,11 +23,11 @@ public class Position : INetworkItem
         MarkersType = typeof(object);
     }
     
-    public Position(string name, IQueue<object> markers)
+    public Position(string name, IQueue<object> markers, Type type)
     {
         Name = name;
         Markers = markers;
-        MarkersType = markers.Peek().GetType();
+        MarkersType = type;
     }
     
     public Position(string name, IEnumerable<object> markers)
@@ -41,7 +41,7 @@ public class Position : INetworkItem
     public object GetMarker()
     {
         object marker = Markers.Dequeue();
-        OnExit.Invoke(marker, CurrTime);
+        OnExit?.Invoke(marker, CurrTime);
         return marker;
     }
 
@@ -54,7 +54,7 @@ public class Position : INetworkItem
         for (int i = 0; i < count; i++)
         {
             object marker = Markers.Dequeue();
-            OnExit.Invoke(marker, CurrTime);
+            OnExit?.Invoke(marker, CurrTime);
             markers.Add(marker);
         }
 
@@ -63,7 +63,7 @@ public class Position : INetworkItem
 
     public void AddMarker(object marker)
     {
-        OnEnter.Invoke(marker, CurrTime);
+        OnEnter?.Invoke(marker, CurrTime);
         Markers.Enqueue(marker);
     }
 
@@ -71,7 +71,7 @@ public class Position : INetworkItem
     {
         foreach (var marker in markers)
         {
-            OnEnter.Invoke(marker, CurrTime);
+            OnEnter?.Invoke(marker, CurrTime);
             Markers.Enqueue(marker);
         }
     }

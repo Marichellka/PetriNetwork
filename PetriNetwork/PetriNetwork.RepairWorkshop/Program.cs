@@ -29,13 +29,14 @@ static class Program
         creationT.ArcsOut.Add(new ArcOut(startP, creationT), intFilter);
 
         // Repair
-        Position repairQueueP = new Position("Repair Queue", new PriorityQueue<object>(new NodeByTotalTimePrioritySelector()));
-        repairQueueP.OnEnter += (node, time) => (node as Node).UpdateWaitingTime(time);
-        repairQueueP.OnExit += (node, time) => (node as Node).UpdateWaitingTime(time);
+        Position repairQueueP = new Position(
+            "Repair Queue", new PriorityQueue<object>(new NodeByTotalTimePrioritySelector()), typeof(Node));
+        repairQueueP.OnEnter += (node, time) => (node as Node)?.UpdateWaitingTime(time);
+        repairQueueP.OnExit += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         creationT.ArcsOut.Add(new ArcOut(repairQueueP, creationT), nodeFilter);
         Position repairStationP = new Position("Repair Station", new List<object>() { 1 });
         Transition repairT = new Transition("Repair", new NodeRepairDelayProvider());
-        repairT.OnExit += (node, time) => (node as Node).UpdateSystemTime(time);
+        repairT.OnExit += (node, time) => (node as Node)?.UpdateSystemTime(time);
         
         
         repairT.ArcsIn.Add(new ArcIn(repairStationP, repairT));
@@ -45,12 +46,12 @@ static class Program
         
         // Control
         Position controlQueueP = new Position("Control Queue");
-        controlQueueP.OnEnter += (node, time) => (node as Node).UpdateWaitingTime(time);
-        controlQueueP.OnExit += (node, time) => (node as Node).UpdateWaitingTime(time);
+        controlQueueP.OnEnter += (node, time) => (node as Node)?.UpdateWaitingTime(time);
+        controlQueueP.OnExit += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         repairT.ArcsOut.Add(new ArcOut(controlQueueP, repairT), nodeFilter);
         Position controlStationP = new Position("Control Station", new List<object>() { 1 });
         Transition controlT = new Transition("Control", new ConstantDelayProvider(6));
-        controlT.OnExit += (node, time) => (node as Node).UpdateSystemTime(time);
+        controlT.OnExit += (node, time) => (node as Node)?.UpdateSystemTime(time);
 
         controlT.ArcsIn.Add(new ArcIn(controlStationP, controlT));
         controlStationP.ArcsIn.AddRange(controlT.ArcsIn);

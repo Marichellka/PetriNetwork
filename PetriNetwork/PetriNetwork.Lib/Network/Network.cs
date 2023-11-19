@@ -63,7 +63,7 @@ public class Network
             var transition = activeTransitions[0];
             var conflictFinder = new ConflictFinder();
             conflictFinder.TryFindConflict(transition);
-            if (conflictFinder.Transitions.Count != 0) 
+            if (conflictFinder.Transitions.Count > 1) 
                 transition = _conflictResolver.ResolveConflict(
                     conflictFinder.Transitions.ToList(), conflictFinder.Positions.ToList());
             

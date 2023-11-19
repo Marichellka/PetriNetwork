@@ -28,9 +28,10 @@ public class NodeCreationProcessor: IProcessor
     {
         var node = new Node();
         node.RepairTime = _repairTimeProvider.GetDelay(new List<Node>(){node});
-        markers.ToList().Add(node);
+        List<object> newMarkers = markers.ToList();
+        newMarkers.Add(node);
         
-        ProcessingItems.Enqueue(markers, timeCompletion);
+        ProcessingItems.Enqueue(newMarkers, timeCompletion);
     }
 
     public IEnumerable<object> EndProcess()
