@@ -6,13 +6,14 @@ public class ErlangDelayProvider: IDelayProvider
 {
     private Erlang _erlang;
 
-    public ErlangDelayProvider(double meanDelay, int shape)
+    public ErlangDelayProvider(double mean, double variance)
     {
-        _erlang = new Erlang(shape, shape / meanDelay);
+        int shape = (int)((mean * mean) / variance);
+        double rate = mean / shape;
+        _erlang = new Erlang(shape, rate);
     }
 
     public double GetDelay(IEnumerable<object> items)
-
     {
         return _erlang.Sample();
     }
