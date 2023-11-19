@@ -17,10 +17,14 @@ public class Node
 
     public void UpdateWaitingTime(double currTime)
     {
+        _prevTimeUpdate = currTime;
         if (_waitingStartTime == -1)
+        {
             _waitingStartTime = currTime;
+        }
         else
         {
+            TimeInSystem += currTime - _waitingStartTime;
             TotalWaitingTime += currTime - _waitingStartTime;
             _waitingStartTime = -1;
         }

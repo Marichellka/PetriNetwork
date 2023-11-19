@@ -8,7 +8,7 @@ namespace PetriNetwork.Lib.Positions;
 public class Position : INetworkItem
 {
     public string Name { get; }
-    public double CurrTime { get; }
+    public double CurrTime { get; set; } = 0;
     public int MarkersCount => Markers.Count;
     public IQueue<object> Markers { get; }
     public Type MarkersType { get; }

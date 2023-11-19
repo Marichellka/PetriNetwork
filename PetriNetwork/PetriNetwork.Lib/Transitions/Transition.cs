@@ -19,6 +19,8 @@ public class Transition: INetworkItem
     public double Probability { get; }
     public double CurrTime { set; get; }
     public double NextEventTime => Processor.NextEventTime;
+    public event Action<object, double> OnEnter;
+    public event Action<object, double> OnExit; 
 
     public Transition(
         string name,  IDelayProvider delayProvider, List<ArcIn>? arcsIn=null, 
@@ -53,7 +55,9 @@ public class Transition: INetworkItem
         List<object> allMarkers = new List<object>();
         foreach (var arcIn in ArcsIn)
         {
-            allMarkers.Add(arcIn.GetMarker());
+            var item = arcIn.GetMarker();
+            allMarkers.Add(item);
+            OnEnter?.Invoke(item, CurrTime);
         }
         Processor.Process(allMarkers, CurrTime+DelayProvider.GetDelay(allMarkers));
     }
@@ -63,7 +67,9 @@ public class Transition: INetworkItem
         var allMarkers = Processor.EndProcess();
         foreach (var (arcOut, filter) in ArcsOut)
         {
-            arcOut.SetMarker(filter.Filter(allMarkers));
+            var item = filter.Filter(allMarkers);
+            arcOut.SetMarker(item);
+            OnExit?.Invoke(item, CurrTime);
         }
     }
 
