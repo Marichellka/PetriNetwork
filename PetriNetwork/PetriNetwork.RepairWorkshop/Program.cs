@@ -29,10 +29,14 @@ static class Program
         creationT.ArcsOut.Add(new ArcOut(startP, creationT), intFilter);
 
         // Repair
-        Position repairQueueP = new Position("Repair Queue", new PriorityQueue<object>(new NodePrioritySelector()));
+        Position repairQueueP = new Position("Repair Queue", new PriorityQueue<object>(new NodeByTotalTimePrioritySelector()));
+        repairQueueP.OnEnter += (node, time) => (node as Node).UpdateWaitingTime(time);
+        repairQueueP.OnExit += (node, time) => (node as Node).UpdateWaitingTime(time);
         creationT.ArcsOut.Add(new ArcOut(repairQueueP, creationT), nodeFilter);
         Position repairStationP = new Position("Repair Station", new List<object>() { 1 });
         Transition repairT = new Transition("Repair", new NodeRepairDelayProvider());
+        repairT.OnExit += (node, time) => (node as Node).UpdateSystemTime(time);
+        
         
         repairT.ArcsIn.Add(new ArcIn(repairStationP, repairT));
         repairStationP.ArcsIn.AddRange(repairT.ArcsIn);
@@ -41,10 +45,13 @@ static class Program
         
         // Control
         Position controlQueueP = new Position("Control Queue");
+        controlQueueP.OnEnter += (node, time) => (node as Node).UpdateWaitingTime(time);
+        controlQueueP.OnExit += (node, time) => (node as Node).UpdateWaitingTime(time);
         repairT.ArcsOut.Add(new ArcOut(controlQueueP, repairT), nodeFilter);
         Position controlStationP = new Position("Control Station", new List<object>() { 1 });
         Transition controlT = new Transition("Control", new ConstantDelayProvider(6));
-        
+        controlT.OnExit += (node, time) => (node as Node).UpdateSystemTime(time);
+
         controlT.ArcsIn.Add(new ArcIn(controlStationP, controlT));
         controlStationP.ArcsIn.AddRange(controlT.ArcsIn);
         controlT.ArcsIn.Add(new ArcIn(controlQueueP, controlT));
@@ -61,7 +68,8 @@ static class Program
         exitT.ArcsOut.Add(new ArcOut(repairedP, exitT), nodeFilter);
 
         // Return
-        Transition returnT = new Transition("Return", new ConstantDelayProvider(0));
+        Transition returnT = new Transition("Return", new ConstantDelayProvider(0), 
+            processor: new ItemChangingProcessor((item) => (item as Node).CycleCount++));
         
         returnT.ArcsIn.Add(new ArcIn(checkedP, returnT));
         checkedP.ArcsIn.AddRange(returnT.ArcsIn);
@@ -80,5 +88,7 @@ static class Program
 
         ByNodeCycleConflictResolver conflictResolver = new ByNodeCycleConflictResolver(returnT);
         Network petriNet = new Network(transitions, positions, arcs, conflictResolver);
+        
+        petriNet.Simulate(1000);
     }
 }
