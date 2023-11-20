@@ -31,7 +31,7 @@ static class Program
 
         // Repair
         Position repairQueueP = new Position(
-            "Repair Queue", new PriorityQueue<object>(new NodeByTotalTimePrioritySelector()), typeof(Node));
+            "Repair Queue", new PriorityQueue<object>(new NodeByRepairTimePrioritySelector()), typeof(Node));
         repairQueueP.OnEnter += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         repairQueueP.OnExit += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         creationT.ArcsOut.Add(new ArcOut(repairQueueP, creationT), nodeFilter);
@@ -94,16 +94,16 @@ static class Program
         petriNet.Simulate(1000);
 
         List<double> timeWaiting = repairedP.Markers.GetEnumerable().Select(n => (n as Node).TotalWaitingTime).ToList();
-        ShowStatistics(timeWaiting);
+        ShowStatistics(timeWaiting, 20);
         List<double> cycleQuality = repairedP.Markers.GetEnumerable().Select(n => (double)(n as Node).CycleCount).ToList();
-        ShowStatistics(cycleQuality);
+        ShowStatistics(cycleQuality, 5);
     }
 
-    public static void ShowStatistics(List<double> distribution)
+    public static void ShowStatistics(List<double> distribution, int segments)
     {
         double mean = StatisticHelper.GetMean(distribution);
         double variance = StatisticHelper.GetVariation(distribution, mean);
         Console.WriteLine($"Mean: {mean}, Variance: {variance}");
-        StatisticHelper.ShowPlot(StatisticHelper.GetFrequencies(distribution, 20));
+        StatisticHelper.ShowPlot(distribution, segments);
     }
 }

@@ -46,13 +46,13 @@ public static class StatisticHelper
         return frequencies.ToList();
     }
     
-    public static void ShowPlot(List<double> numbers)
+    public static void ShowPlot(List<double> numbers, int segments)
     {
         double min = numbers.Min();
         double max = numbers.Max();
 
         Plot plot = new();
-        Histogram hist = new(min, max, numbers.Count);
+        Histogram hist = new(min, max, segments);
 
         hist.AddRange(numbers);
 
