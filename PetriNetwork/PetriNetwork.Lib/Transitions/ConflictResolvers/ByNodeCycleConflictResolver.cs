@@ -15,7 +15,7 @@ public class ByNodeCycleConflictResolver: IConflictResolver
 
     public Transition ResolveConflict(List<Transition> conflictTransitions,  List<Position> positions)
     {
-        if (!conflictTransitions.Contains(_returnTransition))
+        if (conflictTransitions.Contains(_returnTransition))
         {
             var cycles = (positions[0].Markers.Peek() as Node).CycleCount;
             var prob = Math.Pow(ReturnProbability, cycles);

@@ -8,8 +8,8 @@ public class Node
     private double _waitingStartTime = -1;
     public double TotalWaitingTime { get; set; }
     public double RepairTime { get; set; }
-    public int CycleCount { get; set; }
-    
+    public int CycleCount { get; private set; }
+
     public void UpdateSystemTime(double currTime)
     {
         TimeInSystem += currTime - _prevTimeUpdate;
@@ -29,4 +29,6 @@ public class Node
             _waitingStartTime = -1;
         }
     }
+
+    public void IncreaseCycleCount() => CycleCount++;
 }

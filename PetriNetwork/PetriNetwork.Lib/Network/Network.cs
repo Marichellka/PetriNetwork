@@ -38,6 +38,7 @@ public class Network
     public void Simulate(double time)
     {
         StepIn();
+        GetNextTime();
         DebugPrint();
         _currTime = _nextTime;
         while (_currTime < time)
@@ -51,6 +52,7 @@ public class Network
         UpdateCurrTime();
         StepOut();
         StepIn();
+        GetNextTime();
         DebugPrint();
         _currTime = _nextTime;
     }
@@ -58,7 +60,6 @@ public class Network
     private void StepIn()
     {
         var activeTransitions = GetActiveTransitions();
-        _nextTime = double.MaxValue;
 
         while (activeTransitions.Count > 0)
         {
@@ -71,7 +72,6 @@ public class Network
             
             transition.CurrTime = _currTime;
             transition.StartTransition();
-            _nextTime = Math.Min(_nextTime, transition.NextEventTime);
             activeTransitions = GetActiveTransitions();
         }
     }
@@ -112,6 +112,15 @@ public class Network
         foreach (var position in Positions)
         {
             position.CurrTime = _currTime;
+        }
+    }
+
+    private void GetNextTime()
+    {
+        _nextTime = double.MaxValue;
+        foreach (var transition in Transitions)
+        {
+            _nextTime = Math.Min(_nextTime, transition.NextEventTime);
         }
     }
 

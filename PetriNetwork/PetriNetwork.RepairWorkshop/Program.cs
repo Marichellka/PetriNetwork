@@ -50,7 +50,8 @@ static class Program
         controlQueueP.OnExit += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         repairT.ArcsOut.Add(new ArcOut(controlQueueP, repairT), nodeFilter);
         Position controlStationP = new Position("Control Station", new List<object>() { 1 });
-        Transition controlT = new Transition("Control", new ConstantDelayProvider(6));
+        Transition controlT = new Transition("Control", new ConstantDelayProvider(6), 
+            processor: new ItemChangingProcessor((item) => (item as Node)?.IncreaseCycleCount()));
         controlT.OnExit += (node, time) => (node as Node)?.UpdateSystemTime(time);
 
         controlT.ArcsIn.Add(new ArcIn(controlStationP, controlT));
@@ -69,8 +70,7 @@ static class Program
         exitT.ArcsOut.Add(new ArcOut(repairedP, exitT), nodeFilter);
 
         // Return
-        Transition returnT = new Transition("Return", new ConstantDelayProvider(0), 
-            processor: new ItemChangingProcessor((item) => (item as Node).CycleCount++));
+        Transition returnT = new Transition("Return", new ConstantDelayProvider(0));
         
         returnT.ArcsIn.Add(new ArcIn(checkedP, returnT));
         checkedP.ArcsIn.AddRange(returnT.ArcsIn);
