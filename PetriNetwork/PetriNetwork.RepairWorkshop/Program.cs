@@ -93,6 +93,8 @@ static class Program
         
         petriNet.Simulate(1000);
 
+        Console.WriteLine($"Repair station load: {repairT.TimeWorking/1000}");
+        Console.WriteLine($"Control station load: {controlT.TimeWorking/1000}");
         List<double> timeWaiting = repairedP.Markers.GetEnumerable().Select(n => (n as Node).TotalWaitingTime).ToList();
         ShowStatistics(timeWaiting, 20);
         List<double> cycleQuality = repairedP.Markers.GetEnumerable().Select(n => (double)(n as Node).CycleCount).ToList();
