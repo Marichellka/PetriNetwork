@@ -9,7 +9,7 @@ public class ErlangDelayProvider: IDelayProvider
     public ErlangDelayProvider(double mean, double variance)
     {
         int shape = (int)((mean * mean) / variance);
-        double rate = mean / shape;
+        double rate = shape/mean;
         _erlang = new Erlang(shape, rate);
     }
 
