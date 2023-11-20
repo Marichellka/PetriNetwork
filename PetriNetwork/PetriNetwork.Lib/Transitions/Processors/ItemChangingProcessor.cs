@@ -15,19 +15,21 @@ public class ItemChangingProcessor: IProcessor
         }
     }
 
+    public double CurrTime { get; set; }
+
     public ItemChangingProcessor(Action<object> changingAction)
     {
         _changingAction = changingAction;
         ProcessingItems = new PriorityQueue<IEnumerable<object>, double>();
     }   
     
-    public void Process(IEnumerable<object> markers, double timeCompletion)
+    public void Process(IEnumerable<object> markers, double delay)
     {
         foreach (var marker in markers)
         {
             _changingAction(marker);
         }
-        ProcessingItems.Enqueue(markers, timeCompletion);
+        ProcessingItems.Enqueue(markers, CurrTime+delay);
     }
 
     public IEnumerable<object> EndProcess()

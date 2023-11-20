@@ -16,6 +16,8 @@ public class NodeCreationProcessor: IProcessor
         }
     }
 
+    public double CurrTime { get; set; }
+
     private IDelayProvider _repairTimeProvider;
 
     public NodeCreationProcessor(IDelayProvider repairTimeProvider)
@@ -24,14 +26,14 @@ public class NodeCreationProcessor: IProcessor
         ProcessingItems = new PriorityQueue<IEnumerable<object>, double>();
     }   
     
-    public void Process(IEnumerable<object> markers, double timeCompletion)
+    public void Process(IEnumerable<object> markers, double delay)
     {
         var node = new Node();
         node.RepairTime = _repairTimeProvider.GetDelay(new List<Node>(){node});
         List<object> newMarkers = markers.ToList();
         newMarkers.Add(node);
         
-        ProcessingItems.Enqueue(newMarkers, timeCompletion);
+        ProcessingItems.Enqueue(newMarkers, CurrTime+delay);
     }
 
     public IEnumerable<object> EndProcess()

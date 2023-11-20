@@ -3,9 +3,10 @@
 public interface IProcessor
 {
     public PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
-    public double NextEventTime { get; } 
+    public double NextEventTime { get; }
+    double CurrTime { get; set; }
 
-    public void Process(IEnumerable<object> markers, double timeCompletion);
+    public void Process(IEnumerable<object> markers, double delay);
 
     public IEnumerable<object> EndProcess();
 }

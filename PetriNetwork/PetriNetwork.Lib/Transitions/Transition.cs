@@ -23,6 +23,7 @@ public class Transition: INetworkItem
     public int CountProcessing => Processor.ProcessingItems.Count;
     public int Processed { get; private set; } = 0;
     public int Entered { get; private set; } = 0;
+    public double TimeWorking { get; private set; } = 0;
     
     public Transition(
         string name,  IDelayProvider delayProvider, List<ArcIn>? arcsIn=null, 
@@ -61,13 +62,18 @@ public class Transition: INetworkItem
             allMarkers.Add(item);
             OnEnter?.Invoke(item, CurrTime);
         }
-        Processor.Process(allMarkers, CurrTime+DelayProvider.GetDelay(allMarkers));
+
+        double delay = DelayProvider.GetDelay(allMarkers);
+        Processor.CurrTime = CurrTime;
+        Processor.Process(allMarkers, delay);
         Entered++;
     }
     
     public void EndTransition()
     {
         var allMarkers = Processor.EndProcess();
+        TimeWorking += CurrTime - Processor.CurrTime;
+        Processor.CurrTime = CurrTime;
         Processed++;
         foreach (var (arcOut, filter) in ArcsOut)
         {
@@ -93,6 +99,7 @@ public class Transition: INetworkItem
         Console.WriteLine($"Entered: {Entered}");
         Console.WriteLine($"Processed: {Processed}");
         Console.WriteLine($"Mean: {Processed/CurrTime}");
+        Console.WriteLine($"Load: {TimeWorking}");
     }
 
     public IEnumerable<Position> GetInPositions()

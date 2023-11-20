@@ -13,14 +13,16 @@ public class BasicProcessor: IProcessor
         }
     }
 
+    public double CurrTime { get; set; }
+
     public BasicProcessor()
     {
         ProcessingItems = new PriorityQueue<IEnumerable<object>, double>();
     }   
     
-    public void Process(IEnumerable<object> markers, double timeCompletion)
+    public void Process(IEnumerable<object> markers, double delay)
     {
-        ProcessingItems.Enqueue(markers, timeCompletion);
+        ProcessingItems.Enqueue(markers, CurrTime+delay);
     }
 
     public IEnumerable<object> EndProcess()
