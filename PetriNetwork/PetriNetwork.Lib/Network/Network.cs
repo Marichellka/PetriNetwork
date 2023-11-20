@@ -38,6 +38,7 @@ public class Network
     public void Simulate(double time)
     {
         StepIn();
+        DebugPrint();
         _currTime = _nextTime;
         while (_currTime < time)
         {
@@ -50,6 +51,7 @@ public class Network
         UpdateCurrTime();
         StepOut();
         StepIn();
+        DebugPrint();
         _currTime = _nextTime;
     }
 
@@ -110,6 +112,23 @@ public class Network
         foreach (var position in Positions)
         {
             position.CurrTime = _currTime;
+        }
+    }
+
+    private void DebugPrint()
+    {
+        Console.WriteLine("Transitions:");
+        foreach (var transition in Transitions)
+        {
+            transition.DebugPrint();
+            Console.WriteLine("----------------------------");
+        }
+        Console.WriteLine();
+        Console.WriteLine("Positions:");
+        foreach (var position in Positions)
+        {
+            position.DebugPrint();
+            Console.WriteLine("----------------------------");
         }
     }
 }

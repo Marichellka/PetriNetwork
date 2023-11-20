@@ -14,14 +14,16 @@ public class Transition: INetworkItem
     public Dictionary<ArcOut, IMarkerFilter> ArcsOut { get; }
     public IDelayProvider DelayProvider { get; }
     public IProcessor Processor { get; }
-    public int CountProcessing => Processor.ProcessingItems.Count;
     public double Priority { get; }
     public double Probability { get; }
     public double CurrTime { set; get; }
     public double NextEventTime => Processor.NextEventTime;
     public event Action<object, double> OnEnter;
     public event Action<object, double> OnExit; 
-
+    public int CountProcessing => Processor.ProcessingItems.Count;
+    public int Processed { get; private set; } = 0;
+    public int Entered { get; private set; } = 0;
+    
     public Transition(
         string name,  IDelayProvider delayProvider, List<ArcIn>? arcsIn=null, 
         Dictionary<ArcOut, IMarkerFilter>? arcsOut=null, 
@@ -60,11 +62,13 @@ public class Transition: INetworkItem
             OnEnter?.Invoke(item, CurrTime);
         }
         Processor.Process(allMarkers, CurrTime+DelayProvider.GetDelay(allMarkers));
+        Entered++;
     }
     
     public void EndTransition()
     {
         var allMarkers = Processor.EndProcess();
+        Processed++;
         foreach (var (arcOut, filter) in ArcsOut)
         {
             var item = filter.Filter(allMarkers);
@@ -84,7 +88,11 @@ public class Transition: INetworkItem
     
     public void DebugPrint()
     {
-        throw new NotImplementedException();
+        Console.WriteLine($"{Name}:");
+        Console.WriteLine($"Processing: {CountProcessing}");
+        Console.WriteLine($"Entered: {Entered}");
+        Console.WriteLine($"Processed: {Processed}");
+        Console.WriteLine($"Mean: {Processed/CurrTime}");
     }
 
     public IEnumerable<Position> GetInPositions()

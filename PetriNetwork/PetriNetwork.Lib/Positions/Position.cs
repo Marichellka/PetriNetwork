@@ -79,7 +79,7 @@ public class Position : INetworkItem
     public void DebugPrint()
     {
         Console.WriteLine($"{Name}:");
-        
+        Markers.DebugPrint();
     }
 
     public IEnumerable<Transition> GetOutTransitions()
