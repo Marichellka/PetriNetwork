@@ -13,6 +13,7 @@ namespace PetriNetwork.RepairWorkshop;
 
 static class Program
 {
+    [STAThread]
     public static void Main()
     {
         ByTypeMarkerFilter nodeFilter = new ByTypeMarkerFilter(typeof(Node));
@@ -91,5 +92,18 @@ static class Program
         Network petriNet = new Network(transitions, positions, arcs, conflictResolver);
         
         petriNet.Simulate(1000);
+
+        List<double> timeWaiting = repairedP.Markers.GetEnumerable().Select(n => (n as Node).TotalWaitingTime).ToList();
+        ShowStatistics(timeWaiting);
+        List<double> cycleQuality = repairedP.Markers.GetEnumerable().Select(n => (double)(n as Node).CycleCount).ToList();
+        ShowStatistics(cycleQuality);
+    }
+
+    public static void ShowStatistics(List<double> distribution)
+    {
+        double mean = StatisticHelper.GetMean(distribution);
+        double variance = StatisticHelper.GetVariation(distribution, mean);
+        Console.WriteLine($"Mean: {mean}, Variance: {variance}");
+        StatisticHelper.ShowPlot(StatisticHelper.GetFrequencies(distribution, 20));
     }
 }
