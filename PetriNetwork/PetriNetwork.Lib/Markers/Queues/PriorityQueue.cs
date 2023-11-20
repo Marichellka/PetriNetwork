@@ -27,7 +27,15 @@ public class PriorityQueue<TItem>: IQueue<TItem>
         Entered++;
         _priorityQueue.Enqueue(item, _prioritySelector.GetPriority(item)); 
     }
-    
+
+    public IEnumerable<TItem> GetEnumerable()
+    {
+        while (_priorityQueue.TryDequeue(out TItem element, out IComparable _))
+        {
+            yield return element;
+        }
+    }
+
     public TItem Dequeue()
     {
         return _priorityQueue.Dequeue();

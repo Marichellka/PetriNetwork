@@ -29,7 +29,12 @@ public class Queue<TItem>: IQueue<TItem>
         Entered++;
         _queue.Enqueue(item);
     }
-    
+
+    public IEnumerable<TItem> GetEnumerable()
+    {
+        return _queue;
+    }
+
     public TItem Dequeue()
     {
         return _queue.Dequeue();
