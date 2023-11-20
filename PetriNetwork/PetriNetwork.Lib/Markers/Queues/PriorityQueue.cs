@@ -23,9 +23,9 @@ public class PriorityQueue<TItem>: IQueue<TItem>
 
     public void Enqueue(TItem item)
     {
-        _mean += Count;
         Entered++;
         _priorityQueue.Enqueue(item, _prioritySelector.GetPriority(item)); 
+        _mean += Count;
     }
 
     public IEnumerable<TItem> GetEnumerable()

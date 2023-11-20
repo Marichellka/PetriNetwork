@@ -25,9 +25,9 @@ public class Queue<TItem>: IQueue<TItem>
 
     public void Enqueue(TItem item)
     {
-        _mean += Count;
         Entered++;
         _queue.Enqueue(item);
+        _mean += Count;
     }
 
     public IEnumerable<TItem> GetEnumerable()
