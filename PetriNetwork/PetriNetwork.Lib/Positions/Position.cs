@@ -78,7 +78,7 @@ public class Position : INetworkItem
 
     public void DebugPrint()
     {
-        Console.WriteLine($"{Name}:");
+        Console.WriteLine($"{Name} Position:");
         Markers.DebugPrint();
     }
 

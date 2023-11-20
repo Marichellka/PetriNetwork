@@ -15,6 +15,7 @@ public interface IQueue<T>
     public virtual void DebugPrint()
     {
         Console.WriteLine($"Current size: {Count}");
+        Console.WriteLine($"Entered: {Entered}");
         Console.WriteLine($"Mean size: {Mean}");
     }
 }

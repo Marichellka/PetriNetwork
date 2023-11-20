@@ -88,7 +88,7 @@ public class Transition: INetworkItem
     
     public void DebugPrint()
     {
-        Console.WriteLine($"{Name}:");
+        Console.WriteLine($"{Name} Transition:");
         Console.WriteLine($"Processing: {CountProcessing}");
         Console.WriteLine($"Entered: {Entered}");
         Console.WriteLine($"Processed: {Processed}");
