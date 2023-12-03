@@ -3,10 +3,10 @@ using PetriNetwork.Lib.Transitions.DelayProviders;
 
 namespace PetriNetwork.Lib.Transitions.Processors;
 
-public class NodeCreationProcessor: IProcessor
+public class NodeCreationProcessor: Processor
 {
-    public PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
-    public double NextEventTime
+    public override PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
+    public override double NextEventTime
     {
         get
         {
@@ -16,7 +16,7 @@ public class NodeCreationProcessor: IProcessor
         }
     }
 
-    public double CurrTime { get; set; }
+    public override double CurrTime { get; set; }
 
     private IDelayProvider _repairTimeProvider;
 
@@ -26,7 +26,7 @@ public class NodeCreationProcessor: IProcessor
         ProcessingItems = new PriorityQueue<IEnumerable<object>, double>();
     }   
     
-    public void Process(IEnumerable<object> markers, double delay)
+    public override void Process(IEnumerable<object> markers, double delay)
     {
         var node = new Node();
         node.RepairTime = _repairTimeProvider.GetDelay(new List<Node>(){node});
@@ -36,7 +36,7 @@ public class NodeCreationProcessor: IProcessor
         ProcessingItems.Enqueue(newMarkers, CurrTime+delay);
     }
 
-    public IEnumerable<object> EndProcess()
+    public override IEnumerable<object> EndProcess()
     {
         return ProcessingItems.Dequeue();
     }

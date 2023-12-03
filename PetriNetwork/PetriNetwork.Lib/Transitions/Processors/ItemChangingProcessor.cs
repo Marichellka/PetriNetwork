@@ -1,11 +1,11 @@
 ﻿namespace PetriNetwork.Lib.Transitions.Processors;
 
-public class ItemChangingProcessor: IProcessor
+public class ItemChangingProcessor: Processor
 {
-    public PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
+    public override PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
     private Action<object> _changingAction;
 
-    public double NextEventTime
+    public override double NextEventTime
     {
         get
         {
@@ -15,7 +15,7 @@ public class ItemChangingProcessor: IProcessor
         }
     }
 
-    public double CurrTime { get; set; }
+    public override double CurrTime { get; set; }
 
     public ItemChangingProcessor(Action<object> changingAction)
     {
@@ -23,7 +23,7 @@ public class ItemChangingProcessor: IProcessor
         ProcessingItems = new PriorityQueue<IEnumerable<object>, double>();
     }   
     
-    public void Process(IEnumerable<object> markers, double delay)
+    public override void Process(IEnumerable<object> markers, double delay)
     {
         foreach (var marker in markers)
         {
@@ -32,7 +32,7 @@ public class ItemChangingProcessor: IProcessor
         ProcessingItems.Enqueue(markers, CurrTime+delay);
     }
 
-    public IEnumerable<object> EndProcess()
+    public override IEnumerable<object> EndProcess()
     {
         return ProcessingItems.Dequeue();
     }

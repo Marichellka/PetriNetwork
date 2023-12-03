@@ -4,8 +4,9 @@ public class Queue<TItem>: IQueue<TItem>
 {
     private System.Collections.Generic.Queue<TItem> _queue;
     public int Count { get=>_queue.Count; }
-    private double _mean; 
-    public double Mean { get => Entered==0?0:_mean/Entered;}
+    private double _mean;
+    private double _updateCount;
+    public double Mean { get => _updateCount==0?0:_mean/_updateCount;}
     public int Entered { get; private set; }
 
     public Queue()
@@ -27,7 +28,6 @@ public class Queue<TItem>: IQueue<TItem>
     {
         Entered++;
         _queue.Enqueue(item);
-        _mean += Count;
     }
 
     public IEnumerable<TItem> GetEnumerable()
@@ -38,5 +38,11 @@ public class Queue<TItem>: IQueue<TItem>
     public TItem Dequeue()
     {
         return _queue.Dequeue();
+    }
+
+    public void Update()
+    {
+        _updateCount++;
+        _mean += Count;
     }
 }

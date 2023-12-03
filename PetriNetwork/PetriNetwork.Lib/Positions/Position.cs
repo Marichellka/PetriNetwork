@@ -8,6 +8,10 @@ namespace PetriNetwork.Lib.Positions;
 public class Position : INetworkItem
 {
     public string Name { get; }
+    public double Mean
+    {
+        get => Markers.Mean;
+    }
     public double CurrTime { get; set; } = 0;
     public int MarkersCount => Markers.Count;
     public IQueue<object> Markers { get; }
@@ -80,6 +84,11 @@ public class Position : INetworkItem
     {
         Console.WriteLine($"{Name} Position:");
         Markers.DebugPrint();
+    }
+
+    public void UpdateMean()
+    {
+        Markers.Update();
     }
 
     public IEnumerable<Transition> GetOutTransitions()

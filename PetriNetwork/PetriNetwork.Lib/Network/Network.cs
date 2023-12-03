@@ -49,7 +49,7 @@ public class Network
 
     private void Step()
     {
-        UpdateCurrTime();
+        Update();
         StepOut();
         StepIn();
         GetNextTime();
@@ -102,15 +102,17 @@ public class Network
         }
     }
 
-    private void UpdateCurrTime()
+    private void Update()
     {
         foreach (var transition in Transitions)
         {
+            transition.UpdateMean();
             transition.CurrTime = _currTime;
         }
 
         foreach (var position in Positions)
         {
+            position.UpdateMean();
             position.CurrTime = _currTime;
         }
     }
@@ -124,7 +126,7 @@ public class Network
         }
     }
 
-    private void DebugPrint()
+    public void DebugPrint()
     {
         Console.WriteLine("Transitions:");
         foreach (var transition in Transitions)

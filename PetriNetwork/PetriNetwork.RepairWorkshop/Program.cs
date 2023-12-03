@@ -35,10 +35,20 @@ static class Program
         repairQueueP.OnEnter += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         repairQueueP.OnExit += (node, time) => (node as Node)?.UpdateWaitingTime(time);
         creationT.ArcsOut.Add(new ArcOut(repairQueueP, creationT), nodeFilter);
-        Position repairStationP = new Position("Repair Station", new List<object>() { 1 });
-        Transition repairT = new Transition("Repair", new NodeRepairDelayProvider());
-        repairT.OnExit += (node, time) => (node as Node)?.UpdateSystemTime(time);
+        Position repairStationP = new Position("Repair Station", new List<object>() {1});
         
+        // initial load 
+        PriorityQueue<IEnumerable<object>, double> items = new();
+        items.EnqueueRange(new[]
+        {
+            (new object[]{1, new Node()}.AsEnumerable(), 1.0), 
+            (new object[]{1, new Node()}.AsEnumerable(), 1.5)
+        });
+        
+        Transition repairT = new Transition(
+            "Repair", new NodeRepairDelayProvider(), 
+            processor: new BasicProcessor(items));
+        repairT.OnExit += (node, time) => (node as Node)?.UpdateSystemTime(time);
         
         repairT.ArcsIn.Add(new ArcIn(repairStationP, repairT));
         repairStationP.ArcsIn.AddRange(repairT.ArcsIn);
@@ -93,11 +103,12 @@ static class Program
         
         petriNet.Simulate(1000);
 
-        Console.WriteLine($"Repair station load: {repairT.TimeWorking/1000}");
-        Console.WriteLine($"Control station load: {controlT.TimeWorking/1000}");
+        
+        Console.WriteLine($"Repair station load: {(3-repairStationP.Markers.Mean)/3}");
+        Console.WriteLine($"Control station load: {1-controlStationP.Markers.Mean}");
         List<double> timeWaiting = repairedP.Markers.GetEnumerable().Select(n => (n as Node).TotalWaitingTime).ToList();
         ShowStatistics(timeWaiting, 20);
-        List<double> cycleQuality = repairedP.Markers.GetEnumerable().Select(n => (double)(n as Node).CycleCount).ToList();
+        List<double> cycleQuality = repairedP.Markers.GetEnumerable().Select(n => 1/(double)(n as Node).CycleCount).ToList();
         ShowStatistics(cycleQuality, 5);
     }
 

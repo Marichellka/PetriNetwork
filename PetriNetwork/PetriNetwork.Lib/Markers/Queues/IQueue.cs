@@ -20,4 +20,6 @@ public interface IQueue<T>
         Console.WriteLine($"Entered: {Entered}");
         Console.WriteLine($"Mean size: {Mean}");
     }
+
+    public void Update();
 }

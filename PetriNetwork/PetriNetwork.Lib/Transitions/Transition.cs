@@ -10,10 +10,11 @@ namespace PetriNetwork.Lib.Transitions;
 public class Transition: INetworkItem
 {
     public string Name { get; }
+    public double Mean { get => Processor.Mean; }
     public List<ArcIn> ArcsIn { get; }
     public Dictionary<ArcOut, IMarkerFilter> ArcsOut { get; }
     public IDelayProvider DelayProvider { get; }
-    public IProcessor Processor { get; }
+    public Processor Processor { get; }
     public double Priority { get; }
     public double Probability { get; }
     public double CurrTime { set; get; }
@@ -28,7 +29,7 @@ public class Transition: INetworkItem
     public Transition(
         string name,  IDelayProvider delayProvider, List<ArcIn>? arcsIn=null, 
         Dictionary<ArcOut, IMarkerFilter>? arcsOut=null, 
-        IProcessor? processor=null,  int priority=0, double probability=1)
+        Processor? processor=null,  int priority=0, double probability=1)
     {
         CurrTime = 0;
         DelayProvider = delayProvider;
@@ -98,8 +99,13 @@ public class Transition: INetworkItem
         Console.WriteLine($"Processing: {CountProcessing}");
         Console.WriteLine($"Entered: {Entered}");
         Console.WriteLine($"Processed: {Processed}");
-        Console.WriteLine($"Mean: {Processed/CurrTime}");
+        Console.WriteLine($"Mean: {Mean}");
         Console.WriteLine($"Load: {TimeWorking}");
+    }
+
+    public void UpdateMean()
+    {
+        Processor.UpdateMean();
     }
 
     public IEnumerable<Position> GetInPositions()

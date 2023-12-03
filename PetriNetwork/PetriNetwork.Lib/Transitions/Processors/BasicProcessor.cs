@@ -1,9 +1,9 @@
 ﻿namespace PetriNetwork.Lib.Transitions.Processors;
 
-public class BasicProcessor: IProcessor
+public class BasicProcessor: Processor
 {
-    public PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
-    public double NextEventTime
+    public override PriorityQueue<IEnumerable<object>, double> ProcessingItems { get; }
+    public override double NextEventTime
     {
         get
         {
@@ -13,19 +13,24 @@ public class BasicProcessor: IProcessor
         }
     }
 
-    public double CurrTime { get; set; }
+    public override double CurrTime { get; set; }
 
     public BasicProcessor()
     {
         ProcessingItems = new PriorityQueue<IEnumerable<object>, double>();
     }   
     
-    public void Process(IEnumerable<object> markers, double delay)
+    public BasicProcessor(PriorityQueue<IEnumerable<object>, double> items)
+    {
+        ProcessingItems = items;
+    }
+    
+    public override void Process(IEnumerable<object> markers, double delay)
     {
         ProcessingItems.Enqueue(markers, CurrTime+delay);
     }
 
-    public IEnumerable<object> EndProcess()
+    public override IEnumerable<object> EndProcess()
     {
         return ProcessingItems.Dequeue();
     }
