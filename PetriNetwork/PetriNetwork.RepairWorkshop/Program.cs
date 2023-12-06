@@ -44,10 +44,7 @@ static class Program
             (new object[]{1, new Node()}.AsEnumerable(), 1.0), 
             (new object[]{1, new Node()}.AsEnumerable(), 1.5)
         });
-        
-        Transition repairT = new Transition(
-            "Repair", new NodeRepairDelayProvider(), 
-            processor: new BasicProcessor(items));
+        Transition repairT = new Transition("Repair", new NodeRepairDelayProvider(), processor: new BasicProcessor(items));
         repairT.OnExit += (node, time) => (node as Node)?.UpdateSystemTime(time);
         
         repairT.ArcsIn.Add(new ArcIn(repairStationP, repairT));

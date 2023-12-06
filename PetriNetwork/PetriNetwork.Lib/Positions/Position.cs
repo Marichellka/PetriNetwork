@@ -1,6 +1,7 @@
 ﻿using PetriNetwork.Lib.Arcs;
 using PetriNetwork.Lib.Markers.Queues;
 using PetriNetwork.Lib.Network;
+using PetriNetwork.Lib.Positions.Queues;
 using PetriNetwork.Lib.Transitions;
 
 namespace PetriNetwork.Lib.Positions;
@@ -23,7 +24,7 @@ public class Position : INetworkItem
     public Position(string name)
     {
         Name = name;
-        Markers = new Markers.Queues.Queue<object>();
+        Markers = new Queues.Queue<object>();
         MarkersType = typeof(object);
     }
     
@@ -37,7 +38,7 @@ public class Position : INetworkItem
     public Position(string name, IEnumerable<object> markers)
     {
         Name = name;
-        Markers = new Markers.Queues.Queue<object>(markers);
+        Markers = new Queues.Queue<object>(markers);
         MarkersType = Markers.Peek().GetType();
     }
 

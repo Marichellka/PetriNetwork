@@ -1,5 +1,7 @@
 ﻿
-namespace PetriNetwork.Lib.Markers.Queues;
+using PetriNetwork.Lib.Markers.Queues;
+
+namespace PetriNetwork.Lib.Positions.Queues;
 
 public class PriorityQueue<TItem>: IQueue<TItem>
 {

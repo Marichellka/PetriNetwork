@@ -1,4 +1,4 @@
-﻿namespace PetriNetwork.Lib.Markers.Queues;
+﻿namespace PetriNetwork.Lib.Positions.Queues;
 
 public class Queue<TItem>: IQueue<TItem>
 {

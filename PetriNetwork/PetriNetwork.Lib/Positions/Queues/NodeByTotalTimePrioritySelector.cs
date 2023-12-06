@@ -1,4 +1,7 @@
-﻿namespace PetriNetwork.Lib.Markers.Queues;
+﻿using PetriNetwork.Lib.Markers;
+using PetriNetwork.Lib.Markers.Queues;
+
+namespace PetriNetwork.Lib.Positions.Queues;
 
 public class NodeByTotalTimePrioritySelector: IPrioritySelector<object>
 {
