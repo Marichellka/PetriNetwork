@@ -1,8 +1,8 @@
 ﻿using PetriNetwork.Lib.Arcs;
-using PetriNetwork.Lib.Markers.Filters;
 using PetriNetwork.Lib.Network;
 using PetriNetwork.Lib.Positions;
 using PetriNetwork.Lib.Transitions.DelayProviders;
+using PetriNetwork.Lib.Transitions.Filters;
 using PetriNetwork.Lib.Transitions.Processors;
 
 namespace PetriNetwork.Lib.Transitions;

@@ -1,4 +1,4 @@
-﻿namespace PetriNetwork.Lib.Markers.Filters;
+﻿namespace PetriNetwork.Lib.Transitions.Filters;
 
 public interface IMarkerFilter
 {

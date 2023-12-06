@@ -1,12 +1,13 @@
 ﻿using PetriNetwork.Lib.Arcs;
 using PetriNetwork.Lib.Markers;
-using PetriNetwork.Lib.Markers.Filters;
 using PetriNetwork.Lib.Markers.Queues;
 using PetriNetwork.Lib.Network;
 using PetriNetwork.Lib.Positions;
+using PetriNetwork.Lib.Positions.Queues;
 using PetriNetwork.Lib.Transitions;
 using PetriNetwork.Lib.Transitions.ConflictResolvers;
 using PetriNetwork.Lib.Transitions.DelayProviders;
+using PetriNetwork.Lib.Transitions.Filters;
 using PetriNetwork.Lib.Transitions.Processors;
 
 namespace PetriNetwork.RepairWorkshop;
