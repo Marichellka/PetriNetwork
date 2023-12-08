@@ -2,13 +2,13 @@
 
 public class Node
 {
-    private double _prevTimeUpdate = 0;
     public double TimeInSystem { get; set; }
-
-    private double _waitingStartTime = -1;
     public double TotalWaitingTime { get; set; }
     public double RepairTime { get; set; }
     public int CycleCount { get; private set; }
+    
+    private double _prevTimeUpdate = 0;
+    private double _waitingStartTime = -1;
 
     public void UpdateSystemTime(double currTime)
     {

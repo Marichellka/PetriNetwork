@@ -5,5 +5,6 @@ namespace PetriNetwork.Lib.Network.ConflictResolvers;
 
 public interface IConflictResolver
 {
-    public abstract Transition ResolveConflict(List<Transition> conflictTransitions,  List<Position> positions);
+    public Transition ResolveConflict(
+        List<Transition> conflictTransitions,  List<Position> positions);
 }

@@ -7,7 +7,7 @@ namespace PetriNetwork.Lib.Network.ConflictResolvers;
 public class ByNodeCycleConflictResolver: IConflictResolver
 {
     private Transition _returnTransition;
-    private const double ReturnProbability = 0.15;
+    private const double ReturnProbability = 0.3;
 
     public ByNodeCycleConflictResolver(Transition returnTransition)
     {
@@ -20,7 +20,7 @@ public class ByNodeCycleConflictResolver: IConflictResolver
         {
             var cycles = (positions[0].Markers.Peek() as Node).CycleCount;
             var prob = Math.Pow(ReturnProbability, cycles);
-            if (Random.Shared.NextDouble() < prob)
+            if (Random.Shared.NextDouble() <= prob)
                 return _returnTransition;
 
             conflictTransitions.Remove(_returnTransition);
