@@ -1,7 +1,7 @@
 ﻿using PetriNetwork.Lib.Arcs;
+using PetriNetwork.Lib.Network.ConflictResolvers;
 using PetriNetwork.Lib.Positions;
 using PetriNetwork.Lib.Transitions;
-using PetriNetwork.Lib.Transitions.ConflictResolvers;
 
 namespace PetriNetwork.Lib.Network;
 

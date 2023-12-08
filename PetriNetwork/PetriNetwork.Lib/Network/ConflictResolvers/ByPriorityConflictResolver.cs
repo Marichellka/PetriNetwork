@@ -1,6 +1,7 @@
 ﻿using PetriNetwork.Lib.Positions;
+using PetriNetwork.Lib.Transitions;
 
-namespace PetriNetwork.Lib.Transitions.ConflictResolvers;
+namespace PetriNetwork.Lib.Network.ConflictResolvers;
 
 public class ByPriorityConflictResolver: IConflictResolver
 {
