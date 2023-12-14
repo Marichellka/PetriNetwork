@@ -18,16 +18,15 @@ public static class StatisticHelper
         return mean;
     }
     
-    public static double GetVariation(List<double> distribution, double mean)
+    public static double GetStandardDeviation(List<double> distribution, double mean)
     {
         double sumOfSquares = 0;
         foreach (var x in distribution)
         {
-            sumOfSquares += x*x;
+            sumOfSquares += Math.Pow(x-mean, 2);
         }
 
-        double variation = sumOfSquares / distribution.Count - mean * mean;
-        return variation;
+        return Math.Sqrt(sumOfSquares / distribution.Count);
     }
     
     public static List<double> GetFrequencies(List<double> distribution, int segmentsCount)

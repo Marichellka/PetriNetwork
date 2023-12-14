@@ -116,8 +116,8 @@ static class Program
     public static void ShowStatistics(List<double> distribution, int segments)
     {
         double mean = StatisticHelper.GetMean(distribution);
-        double variance = StatisticHelper.GetVariation(distribution, mean);
-        Console.WriteLine($"Mean: {mean}, Variance: {variance}");
+        double deviation = StatisticHelper.GetStandardDeviation(distribution, mean);
+        Console.WriteLine($"Mean: {mean}, Standard Deviation: {deviation}");
         StatisticHelper.ShowPlot(distribution, segments);
     }
 }
