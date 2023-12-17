@@ -1,6 +1,5 @@
 using PetriNetwork.Lib.Arcs;
 using PetriNetwork.Lib.Markers;
-using PetriNetwork.Lib.Markers.Queues;
 using PetriNetwork.Lib.Network;
 using PetriNetwork.Lib.Network.ConflictResolvers;
 using PetriNetwork.Lib.Positions;
@@ -99,9 +98,9 @@ static class Program
         ByNodeCycleConflictResolver conflictResolver = new ByNodeCycleConflictResolver(returnT);
         Network petriNet = new Network(transitions, positions, arcs, conflictResolver);
         
-        petriNet.Simulate(1000);
+        petriNet.Simulate(5000);
 
-        
+        // Statistics        
         Console.WriteLine($"Repair station load: {(3-repairStationP.Mean)/3}");
         Console.WriteLine($"Control station load: {1-controlStationP.Mean}");
         Console.WriteLine($"Average nodes in system: {repairQueueP.Mean+repairT.Mean+controlQueueP.Mean+controlT.Mean}");

@@ -31,8 +31,6 @@ public class Network
         {
             transition.Check();
         }
-        
-         // check if all positions have at least 1 arc ???
     }
     
     public void Simulate(double time)

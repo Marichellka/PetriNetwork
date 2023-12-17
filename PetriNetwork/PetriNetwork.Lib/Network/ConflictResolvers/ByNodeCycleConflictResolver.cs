@@ -7,7 +7,7 @@ namespace PetriNetwork.Lib.Network.ConflictResolvers;
 public class ByNodeCycleConflictResolver: IConflictResolver
 {
     private Transition _returnTransition;
-    private const double ReturnProbability = 0.3;
+    private const double ReturnProbability = 0.15;
 
     public ByNodeCycleConflictResolver(Transition returnTransition)
     {
