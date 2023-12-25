@@ -16,6 +16,11 @@ static class Program
     [STAThread]
     public static void Main()
     {
+        BuildAndSimulate(1000);
+    }
+
+    public static void BuildAndSimulate(int time)
+    {
         ByTypeMarkerFilter nodeFilter = new ByTypeMarkerFilter(typeof(Node));
         ByTypeMarkerFilter intFilter = new ByTypeMarkerFilter(typeof(int));
 
@@ -97,8 +102,8 @@ static class Program
 
         ByNodeCycleConflictResolver conflictResolver = new ByNodeCycleConflictResolver(returnT);
         Network petriNet = new Network(transitions, positions, arcs, conflictResolver);
-        
-        petriNet.Simulate(5000);
+
+        petriNet.Simulate(time);
 
         // Statistics        
         Console.WriteLine($"Repair station load: {(3-repairStationP.Mean)/3}");
